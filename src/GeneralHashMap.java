@@ -5,41 +5,33 @@ public class GeneralHashMap extends MyHashMap {
 	
 	private int length;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")//because that solved a problem
 	public GeneralHashMap() {
-		this.length = 149;
+		this.length = 139;// after testing, 139 became the magical number that game us the
 		this.buckets = (LinkedList<String>[]) new LinkedList[length];
 		for(int i=0; i<length;i++){
 			this.buckets[i] = new LinkedList<String>();
-		}
+		}//iterate through the array "buckets" and make all the indices into empty linked lists
 	}
 
 	@Override
-	protected int hash(String token) {//use the sum token's character's ascii values as a seed for a 
-
-		int seed = 0;
+	protected int hash(String token) {//do some math with ascii values of first and last characters and length, mod it, and viola! (see other comments for more detail)
+	    
+		int hashIndex = 0; 
 		int len = token.length();
-		int hashIndex;
 
-		for(int i = 0; i < token.length(); i++){
-			seed += (int)token.charAt(i)*(i+1);
-		} //add the ascii values of the word to get the seed for the PRNG
+		hashIndex += (int)token.charAt(0) + len*(int)token.charAt(len-1);	//creates (hopefully) unique hashIndex
+																			// using the ascii values of the 
+																			// first and last characters along with 
+																			// the length of the the word.
 
+		hashIndex *= 65599;//multiply by 65599 because apparently that's a magical number (I would be inclined to agree)
 
-		System.out.println(seed);
-
-		if(len % 3 == 0){//How I decide how many digits to pull out
-			hashIndex = seed%1000;
-		}
-		else if(len % 2 == 0){
-			hashIndex = seed%100;
-		}
-		else{
-			hashIndex = seed%10;
-		}
-
-		return hashIndex;
-		
+		hashIndex %= length;//mod hashIndex so it will fit into the array
+							// the pseudo-randomness of the hashIndex going into this
+							// gives it a better shot at more random when modded
+							// more randomness = more even distribution = more efficient = more points
+		return hashIndex;	
 	}
 
 	@Override
@@ -48,18 +40,21 @@ public class GeneralHashMap extends MyHashMap {
 		int index = hash(token);
 		if(this.buckets[index].contains(token)){
 			return;
-		}
+		} //if the index already has the token, it does not add it to that index's linked list (duh)
 		else{
 			this.buckets[index].add(token);
-			return;
+			return; //otherwise it gets added (also duh)
 		}
 	}
 
 	@Override
-	public void display() {
-		
-		// TODO: IMPLEMENT DISPLAY METHOD TO SHOW CONTENTS OF ALL BUCKETS
-		
+	public void display() {	
+		for(int i = 0; i < length; i++){//iterate through array, print out all tokens in each index's linked list
+			System.out.println(i + ": ");
+			for(int q = 0; q < buckets[i].size(); q++){
+				System.out.println("     " + buckets[i].get(q)); //spaces and "println"s make it look pretty (although very cumbersome)
+			}
+		}
 	}
 
 }
