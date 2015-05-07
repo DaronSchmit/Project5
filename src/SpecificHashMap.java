@@ -7,20 +7,20 @@ public class SpecificHashMap extends MyHashMap {
 
 	@SuppressWarnings("unchecked")
 	public SpecificHashMap() {
-		this.length = 53;
+		this.length = 50; //We know the data set, so we can set an ideal length (1 index for each data point)
 		this.buckets = (LinkedList<String>[]) new LinkedList[length];
-		for(int i=0; i<length;i++){
-			this.buckets[i] = new LinkedList<String>();
+		for(int i=0; i<length;i++){										//Same iteration as from GeneralHashMap
+			this.buckets[i] = new LinkedList<String>();					//In reality, this could just be an array
 		}
 	}
 
 	@Override
-	protected int hash(String token) {
-		int size = token.length();
-		if(size == 2){
-			if(token.equals("do")){
-				return 0;
-			}
+	protected int hash(String token) { 	//Because we know exactly what we're hashing,
+		int size = token.length();		// we can manually put each token into a predetermined index.
+		if(size == 2){					// it's not elegant or efficient, but it works, and its better than just 
+			if(token.equals("do")){		// fifty "if" statements. Worst case here, we have fifteen "if"s to go through
+				return 0;				// worst case there, you have to go through 50
+			}							
 			else if(token.equals("if")){
 				return 1;
 			}
@@ -34,8 +34,8 @@ public class SpecificHashMap extends MyHashMap {
 			}
 			else if(token.equals("int")){
 				return 4;
-			}
-			else if(token.equals("try")){
+			}								//NOTE: This method is limited to how aware the programmer is 
+			else if(token.equals("try")){	// of what (s)he is hashing and how lazy (s)he is
 				return 5;
 			}
 		}
@@ -182,7 +182,7 @@ public class SpecificHashMap extends MyHashMap {
 				return 48;
 			}
 		}
-		else if(size ==11){
+		else if(token.equals("synchronized")){
 			return 49;
 		}
 
@@ -197,7 +197,7 @@ public class SpecificHashMap extends MyHashMap {
 		
 		int index = hash(token);
 		if(this.buckets[index].contains(token)){
-			return;
+			return; //see GeneralHashMap.add()
 		}
 		else{
 			this.buckets[index].add(token);
@@ -211,10 +211,11 @@ public class SpecificHashMap extends MyHashMap {
 	public void display() {
 		
 		for(int i = 0; i < length; i++){
-			System.out.println(buckets[i] + ": ");
-			for(int q = 0; q < buckets[i].size(); q++;){
-				System.out.println("   " + buckets[i].get(q));
+			System.out.print(i + ": ");
+			for(int q = 0; q < buckets[i].size(); q++){
+				System.out.print("   " + buckets[i].get(q));
 			}
+			System.out.println(); //see GeneralHashMap.display()
 		}
 	}
 	

@@ -49,7 +49,8 @@ public abstract class MyHashMap {
 		System.out.println("TOTAL SCORE:              " + totalScore + " / " + "80.0");
 		System.out.println("(20 PTS AWARDED FOR GOOD COMMENTS AND EXPLAINATIONS)");
 		
-		
+		//generalHashMap.display();  //for testing purposes only
+		//specificHashMap.display();
 	}
 	
 	// THE TEST FUNCTION THAT USES A HASHMAP AND A FILE TO TEST
