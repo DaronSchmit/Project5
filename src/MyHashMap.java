@@ -1,5 +1,7 @@
 // Written by Seth Larson CSCI 1933
 
+// Project completed by Nate Langenkamp (Student ID: 4948055) and Daron Schmit (Student ID: 4544799) 
+
 import java.util.List;
 import java.util.LinkedList;
 
