@@ -1,26 +1,21 @@
 public class Test{
 
-	public static int hash(String token) {
-		
-		// TODO: IMPLEMENT HASHING FUNCTION FOR GENERAL HASHMAP
-		int length = 143;
-		int totAscii = (int)token.charAt(0);
-		int hashIndex;
+	public int hash(String token) {
+
+		int seed = 0; //because apparently that's a magical number
 		int len = token.length();
+		int hashIndex;
 
-		for(int i = 1; i < len; i++){//generating an index
-			totAscii += i*(int)token.charAt(i)*2;
-		}
-		hashIndex = totAscii;
+		seed += (int)token.charAt(0);
+		seed += (int)token.charAt(len-1);
+		seed *= (int)token.charAt(len-1)*65599;
 
-		while(hashIndex > length){
-			//System.out.println(hashIndex);
-			hashIndex /= 10;
-		}
+		seed %= 149;
+
+		hashIndex = seed;
 
 		return hashIndex;
 		
-	}
 
 	public static void main(String[] args){
 
